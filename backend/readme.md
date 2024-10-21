@@ -1,11 +1,17 @@
-# Django Docker Project
+# Django Backend with PostgreSQL - Docker Swarm
 
-This project containerizes a Django application using Docker, with dynamic user and environment management.
+This project is a Django backend application orchestrated with Docker Swarm, using PostgreSQL as the database.
 
 ## Prerequisites
 
 - **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
-- **Docker Compose**: [Install Docker Compose](https://docs.docker.com/compose/install/)
+- **Docker Swarm** initialized: [Docker Swarm Init](https://docs.docker.com/reference/cli/docker/swarm/init/)
+
+## Project Structure
+
+- **Django**: Serves the backend of the application.
+- **PostgreSQL**: Manages the relational database.
+- **Docker Swarm**: Orchestrates the services.
 
 ## Setup and Usage
 
@@ -24,40 +30,37 @@ Create a `.env` file from the provided `.env.sample`:
 cp .env.sample .env
 ```
 
-Edit the `.env` file with appropriate values:
+Edit the `.env` file with appropriate values (check `.env.sample` file)
+
+### 3. Build the Django image:
+
+Before deploying with Docker Swarm, you need to build the **Django** image:
 
 ```bash
-USERNAME=django_user
-USER_UID=1001
-USER_GID=1001
-ENVIRONMENT=dev
+docker build -t your-dockerhub-username/django:latest .
 ```
 
-### 3. Build and Run the Application
-
-Build the Docker image and run the service using Docker Compose:
+### 4. Create Docker secrets for sensitive data:
 
 ```bash
-docker compose up --build
+  echo "your_secret_key" | docker secret create django_secret_key -
+  echo "your_db_user" | docker secret create postgres_user -
+  echo "your_db_password" | docker secret create postgres_password -
+  echo "your_db_name" | docker secret create postgres_db -
 ```
 
-### 4. Access the Application
+### 5. Deploy the stack with Docker Swarm
 
-The Django app will be available at:
-
-```
-http://localhost:8000
+```bash
+docker stack deploy -c stack.yaml django-backend
 ```
 
-## Managing Secrets
+### 6. Check the running services
 
-Secrets are managed using a `secrets.json` file, which is ignored in `.dockerignore` file:
-
-### Place your secrets in `secrets.json`:
-
-```json
-{
-  "SECRET_KEY": "your_secret_key",
-  "DATABASE_URL": "postgres://user:password@localhost:5432/mydatabase"
-}
+```bash
+docker service ls
 ```
+
+### 7. Access the Django application at `http://localhost:8000`
+
+## Now begin a new Django and PostgreSQL project manage with Docker Swarm
