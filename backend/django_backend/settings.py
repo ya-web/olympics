@@ -38,16 +38,20 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'dev')
 DEBUG =  ENVIRONMENT != 'prod'
 
 if ENVIRONMENT == 'prod':
-    # Paramètres de sécurité pour l'environnement de production
-    SECURITY_SETTINGS = {
-        'SECURE_SSL_REDIRECT': True,
-        'SECURE_HSTS_SECONDS': 31536000,
-        'SECURE_HSTS_PRELOAD': True,
-        'SECURE_HSTS_INCLUDE_SUBDOMAINS': True,
-        'SECURE_CONTENT_TYPE_NOSNIFF': True,
-        'X_FRAME_OPTIONS': 'DENY',
-    }
-    globals().update(SECURITY_SETTINGS)
+    # Production-specific security settings
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_REFERRER_POLICY = 'same-origin'
+
+# Allowed hosts
+    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
