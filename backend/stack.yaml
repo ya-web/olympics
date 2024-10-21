@@ -1,0 +1,54 @@
+services:
+  django:
+    image: tixidest/django:1.1-swarm
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    secrets:
+      - django_secret_key
+      - postgres_user
+      - postgres_password
+      - postgres_db
+    deploy:
+      replicas: 1 #  more replicas on production, use Docker Swarm for scaling the service
+      restart_policy:
+        condition: on-failure # Restart on failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    labels:
+      - "service=django"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+    secrets:
+      - postgres_user
+      - postgres_password
+      - postgres_db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    entrypoint: ["/docker-entrypoint-initdb.d/entrypoint.sh"]
+
+secrets:
+  django_secret_key:
+    external: true
+  postgres_user:
+    external: true
+  postgres_password:
+    external: true
+  postgres_db:
+    external: true
+
+volumes:
+  postgres_data:
