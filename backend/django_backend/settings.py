@@ -12,30 +12,25 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-import dj_database_url
-import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Initialize environment variables
+# Load secrets from Docker Swarm secret files
+def load_secret(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return file.read().strip()  # Read and strip any trailing whitespace/newlines
+    except IOError as e:
+        raise Exception(f"Error reading secret from {file_path}: {e}")
 
-SECRETS_FILE = '/run/secrets/secrets.json'
+# Load the Django SECRET_KEY from Docker Swarm secret
+DJANGO_SECRET_KEY_PATH = '/run/secrets/django_secret_key'
+SECRET_KEY = load_secret(DJANGO_SECRET_KEY_PATH)
 
-def load_secrets(secrets_file):
-    secrets_path = Path(secrets_file)
-    if secrets_path.is_file():
-        with secrets_path.open() as secrets_json:
-            return json.load(secrets_json)
-    raise ValueError("Le fichier de secrets JSON est introuvable")
-
-secrets = load_secrets(SECRETS_FILE)
-
-SECRET_KEY = secrets.get("SECRET_KEY")
-
+# Check if we are in a production environment
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'dev')
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =  ENVIRONMENT != 'prod'
+DEBUG = ENVIRONMENT != 'prod'
 
 if ENVIRONMENT == 'prod':
     # Production-specific security settings
@@ -100,14 +95,22 @@ WSGI_APPLICATION = "django_backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASE_URL = secrets.get("DATABASE_URL", "postgres://user:password@localhost:5432/defaultdb")
-try:
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
-    }
-except Exception as e:
-    raise ValueError(f"Erreur de configuration de la base de données : {e}")
+# Load PostgreSQL credentials from individual Docker Swarm secrets
+POSTGRES_USER_PATH = '/run/secrets/postgres_user'
+POSTGRES_PASSWORD_PATH = '/run/secrets/postgres_password'
+POSTGRES_DB_PATH = '/run/secrets/postgres_db'
 
+# Database configuration using PostgreSQL secrets
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': load_secret(POSTGRES_DB_PATH),  # Database name
+        'USER': load_secret(POSTGRES_USER_PATH),  # Database user
+        'PASSWORD': load_secret(POSTGRES_PASSWORD_PATH),  # User password
+        'HOST': 'postgres',  # Host
+        'PORT': '5432',  # Port
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
