@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -15,19 +16,28 @@ const Home = () => {
           <h3>Athlétisme - 100m</h3>
           <p><strong>Date :</strong> 26 juillet 2024</p>
           <p><strong>Lieu :</strong> Stade Olympique</p>
+          <button>Réservez vos places</button>
         </div>
 
         <div className="epreuve">
           <h3>Athlétisme - 200m</h3>
           <p><strong>Date :</strong> 27 juillet 2024</p>
           <p><strong>Lieu :</strong> Stade Olympique</p>
+          <button>Réservez vos places</button>
         </div>
 
         <div className="epreuve">
           <h3>Relais 4x100m</h3>
           <p><strong>Date :</strong> 28 juillet 2024</p>
           <p><strong>Lieu :</strong> Stade Olympique</p>
+          <button>Réservez vos places</button>
         </div>
+      </div>
+
+      <div className="view-all">
+        <Link to="/epreuves">
+          <button>Voir toutes les épreuves</button>
+        </Link>
       </div>
 
       <Footer />
