@@ -17,12 +17,13 @@ ARG USERNAME=react-user
 
 # Switch to a non-root user:
 # Install shadow tools to use useradd and groupadd
-RUN apk add --no-cache shadow
+RUN apk add --no-cache shadow \
+    && groupadd -g ${USER_GID} ${USERNAME} \
+    && useradd -u ${USER_UID} -g ${USER_GID} -ms /bin/bash ${USERNAME}
 
-RUN groupadd -g ${USER_GID} ${USERNAME} && \
-    useradd -u ${USER_UID} -g ${USER_GID} -ms /bin/bash ${USERNAME}
-RUN chown -R ${USERNAME}:${USERNAME} /run /var/cache/nginx /var/run /var/log/nginx && \
-    chmod -R 755 /run /var/cache/nginx /var/run /var/log/nginx
+RUN chown -R ${USERNAME}:${USERNAME} /run /var/cache/nginx /var/run /var/log/nginx /usr/share/nginx/html \
+    && chmod -R 755 /run /var/cache/nginx /var/run /var/log/nginx
+
 USER ${USERNAME}
 
 COPY --from=build /frontend/build /usr/share/nginx/html
