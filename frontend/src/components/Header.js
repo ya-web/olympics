@@ -1,17 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import NavLinks from './NavLinks';
+import BurgerMenu from './BurgerMenu';
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <header className="header">
-      <div className="logo">JO 2024</div>
+      <div className="logo">🏅 JO 2024</div>
+
       <nav>
-        <ul className="nav-links">
-          <li><Link to="/epreuves">Les épreuves</Link></li>
-          <li><Link to="/offres">Nos offres</Link></li>
-          <li><Link to="/panier">Panier</Link></li>
-          <li><Link to="/se-connecter">Se connecter</Link></li>
-        </ul>
+        <NavLinks />
+        <BurgerMenu toggleMenu={toggleMenu} />
+        {menuOpen && (
+          <div className="mobile-nav">
+            <NavLinks onLinkClick={toggleMenu} />
+          </div>
+        )}
       </nav>
     </header>
   );
