@@ -1,5 +1,6 @@
 import React from 'react';
-import Header from '../components/Header.js';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Home = () => {
   return (
@@ -14,6 +15,8 @@ const Home = () => {
         <li>200m - Athlétisme - Stade Olympique - 27 juillet</li>
         <li>Relais 4x100m - Athlétisme - Stade Olympique - 28 juillet</li>
       </ul>
+
+      <Footer />
     </div>
   );
 };
