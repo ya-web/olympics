@@ -7,14 +7,28 @@ const Home = () => {
     <div>
       <Header />
       <h1>Bienvenue aux Jeux Olympiques 2024</h1>
-      <p>Les Jeux Olympiques de 2024 se dérouleront à Paris.</p>
+      <p>Les Jeux Olympiques de 2024 se dérouleront à Paris. Venez vivre des moments historiques en assistant aux plus grandes compétitions sportives mondiales.</p>
       
-      <h2>Épreuves</h2>
-      <ul>
-        <li>100m - Athlétisme - Stade Olympique - 26 juillet</li>
-        <li>200m - Athlétisme - Stade Olympique - 27 juillet</li>
-        <li>Relais 4x100m - Athlétisme - Stade Olympique - 28 juillet</li>
-      </ul>
+      <h2>Les Épreuves</h2>
+      <div className="epreuves">
+        <div className="epreuve">
+          <h3>Athlétisme - 100m</h3>
+          <p><strong>Date :</strong> 26 juillet 2024</p>
+          <p><strong>Lieu :</strong> Stade Olympique</p>
+        </div>
+
+        <div className="epreuve">
+          <h3>Athlétisme - 200m</h3>
+          <p><strong>Date :</strong> 27 juillet 2024</p>
+          <p><strong>Lieu :</strong> Stade Olympique</p>
+        </div>
+
+        <div className="epreuve">
+          <h3>Relais 4x100m</h3>
+          <p><strong>Date :</strong> 28 juillet 2024</p>
+          <p><strong>Lieu :</strong> Stade Olympique</p>
+        </div>
+      </div>
 
       <Footer />
     </div>
