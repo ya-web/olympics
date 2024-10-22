@@ -21,6 +21,9 @@ services:
       - "service=django"
     depends_on:
       - postgres
+    networks:
+      - frontend_network
+      - backend_network
 
   postgres:
     image: postgres:13
@@ -39,6 +42,24 @@ services:
         max_attempts: 3
         window: 120s
     entrypoint: ["/docker-entrypoint-initdb.d/entrypoint.sh"]
+    networks:
+      - backend_network
+
+  frontend:
+    image: react-frontend:latest
+    ports:
+      - "3000:8080"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    labels:
+      - "service=frontend"
+    networks:
+      - frontend_network
 
 secrets:
   django_secret_key:
@@ -52,3 +73,9 @@ secrets:
 
 volumes:
   postgres_data:
+
+networks:
+  frontend_network:
+    driver: overlay
+  backend_network:
+    driver: overlay
