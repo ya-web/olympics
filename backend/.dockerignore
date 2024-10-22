@@ -8,6 +8,7 @@ env/
 
 .env
 secrets.json
+secrets/
 
 __pycache__/
 *.pyc
@@ -19,7 +20,11 @@ __pycache__/
 .idea/
 .vscode/
 
-node_modules/
+.DS_Store
+*.swp
+
 tests/
+/coverage
 
 readme.md
+node_modules/
