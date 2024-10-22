@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
-
+import { FaRunning } from 'react-icons/fa';
 const Home = () => {
   return (
     <div>
@@ -13,21 +13,21 @@ const Home = () => {
       <h2>Les Épreuves</h2>
       <div className="epreuves">
         <div className="epreuve">
-          <h3>Athlétisme - 100m</h3>
+          <h3><FaRunning /> Athlétisme - 100m</h3>
           <p><strong>Date :</strong> 26 juillet 2024</p>
           <p><strong>Lieu :</strong> Stade Olympique</p>
           <button>Réservez vos places</button>
         </div>
 
         <div className="epreuve">
-          <h3>Athlétisme - 200m</h3>
+          <h3><FaRunning /> Athlétisme - 200m</h3>
           <p><strong>Date :</strong> 27 juillet 2024</p>
           <p><strong>Lieu :</strong> Stade Olympique</p>
           <button>Réservez vos places</button>
         </div>
 
         <div className="epreuve">
-          <h3>Relais 4x100m</h3>
+          <h3><FaRunning /> Relais 4x100m</h3>
           <p><strong>Date :</strong> 28 juillet 2024</p>
           <p><strong>Lieu :</strong> Stade Olympique</p>
           <button>Réservez vos places</button>
