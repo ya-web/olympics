@@ -14,7 +14,6 @@ ARG USERNAME=django_user
 ARG USER_UID=1001
 ARG USER_GID=1001
 
-
 # Create a user and group dynamiquement
 RUN groupadd -g ${USER_GID} ${USERNAME} && \
     useradd -u ${USER_UID} -g ${USER_GID} -ms /bin/bash ${USERNAME}
