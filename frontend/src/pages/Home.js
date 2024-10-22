@@ -1,8 +1,10 @@
 import React from 'react';
+import Header from '../components/Header.js';
 
 const Home = () => {
   return (
     <div>
+      <Header />
       <h1>Bienvenue aux Jeux Olympiques 2024</h1>
       <p>Les Jeux Olympiques de 2024 se dérouleront à Paris.</p>
       
