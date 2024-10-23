@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import NavLinks from './NavLinks';
-import BurgerMenu from './BurgerMenu';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
   };
 
   return (
@@ -16,9 +20,8 @@ const Header = () => {
       <nav>
         <NavLinks />
 
-        <BurgerMenu toggleMenu={toggleMenu} />
-
-        <div className={`mobile-nav ${menuOpen ? "open" : ""}`}>
+        <div className="burger-menu" onClick={toggleMenu}>{menuOpen ? <FaTimes /> : <FaBars />}</div>
+        <div className={`mobile-nav ${menuOpen ? "open" : ""}`} onClick={closeMenu}>
           <NavLinks onLinkClick={toggleMenu} />
         </div>
       </nav>

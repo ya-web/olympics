@@ -3,6 +3,7 @@
 /**********************/
 
 body {
+  max-width: 100vw;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -21,52 +22,55 @@ body {
   text-align: center;
   position: relative;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
 .logo {
-  font-size: 1.5rem;
-  width: 150px;
+  font-size: 2rem;
+  padding: 30px;
 }
 
 /**************/
 /* navigation */
 /**************/
 /*global*/
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
 .nav-links {
   display: none;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .nav-links li {
-  display: inline-block;
-  margin-right: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .nav-links a {
   color: white;
   text-decoration: none;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  padding: 20px;
 }
 
 /*not desktop*/
 .burger-menu {
-  display: flex;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 30px;
-  height: 25px;
+  position: relative;
+  z-index: 1001;
 }
 
-.burger-menu div {
-  width: 100%;
-  height: 3px;
-  background-color: white;
-  margin: 3px 0;
+.burger-menu svg {
+  width: 25px;
+  height: 25px;
 }
 
 .mobile-nav {
@@ -78,13 +82,14 @@ body {
   height: 100vh;
   background-color: rgba(59, 0, 110, 0.95);
   z-index: 1000;
-  padding-top: 15vh;
+  padding-top: 10vh;
 }
 
 .mobile-nav.open,
 .mobile-nav.open .nav-links {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .mobile-nav.nav-links li {
@@ -93,9 +98,21 @@ body {
 
 .mobile-nav a {
   display: block;
-  padding: 10px 0;
   text-align: center;
   font-size: 1.5rem;
+}
+
+.nav-link-text {
+  display: inline;
+}
+
+.nav-link-icon {
+  display: none;
+}
+
+.nav-link-icon svg {
+  width: 25px;
+  height: 25px;
 }
 
 /***********/
@@ -104,7 +121,7 @@ body {
 
 h1 {
   padding: 2rem;
-  margin: 0 auto;
+  margin: 50px auto;
   width: 80%;
   text-align: center;
   color: #ffffff;
@@ -117,6 +134,7 @@ h1 {
   width: 80%;
   text-align: center;
   font-size: 1.2rem;
+  line-height: 30px;
   color: #d0d0d0;
 }
 
@@ -125,6 +143,8 @@ h1 {
 /************/
 
 .epreuves {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   margin: 0 auto;
   max-width: 90%;
@@ -244,7 +264,6 @@ button:hover {
 @media (min-width: 320px) and (max-width: 768px) {
   .epreuves {
     display: flex;
-    flex-direction: column;
   }
   .footer {
     margin-top: 60px;
@@ -256,12 +275,26 @@ button:hover {
 /*******************/
 
 @media (min-width: 769px) {
+  nav {
+    justify-content: space-between;
+    width: 80%;
+  }
   .nav-links {
     display: flex;
+    padding: 20px;
   }
-  .burger-menu {
-    display: none;
+  .nav-links a {
+    font-size: 1.5rem;
   }
+  .iconlink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav-link-icon {
+    display: inline;
+  }
+  .burger-menu,
   .mobile-nav {
     display: none !important;
   }
