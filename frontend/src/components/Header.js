@@ -15,12 +15,12 @@ const Header = () => {
 
       <nav>
         <NavLinks />
+
         <BurgerMenu toggleMenu={toggleMenu} />
-        {menuOpen && (
-          <div className="mobile-nav">
-            <NavLinks onLinkClick={toggleMenu} />
-          </div>
-        )}
+
+        <div className={`mobile-nav ${menuOpen ? "open" : ""}`}>
+          <NavLinks onLinkClick={toggleMenu} />
+        </div>
       </nav>
     </header>
   );

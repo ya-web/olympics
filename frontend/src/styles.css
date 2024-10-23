@@ -1,3 +1,7 @@
+/**********************/
+/* Mobile first style */
+/**********************/
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -5,6 +9,10 @@ body {
   background-color: #2e004d;
   color: #1a1a2e;
 }
+
+/**********/
+/* header */
+/**********/
 
 .header {
   background-color: #3b006e;
@@ -22,14 +30,19 @@ body {
   width: 150px;
 }
 
+/**************/
+/* navigation */
+/**************/
+/*global*/
 .nav-links {
+  display: none;
   list-style: none;
   padding: 0;
 }
 
 .nav-links li {
-  display: inline;
-  margin-right: 2rem;
+  display: inline-block;
+  margin-right: 20px;
 }
 
 .nav-links a {
@@ -38,6 +51,56 @@ body {
   font-weight: bold;
   font-size: 1.2rem;
 }
+
+/*not desktop*/
+.burger-menu {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+}
+
+.burger-menu div {
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  margin: 3px 0;
+}
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(59, 0, 110, 0.95);
+  z-index: 1000;
+  padding-top: 15vh;
+}
+
+.mobile-nav.open,
+.mobile-nav.open .nav-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-nav.nav-links li {
+  margin-right: 0;
+}
+
+.mobile-nav a {
+  display: block;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+/***********/
+/* Content */
+/***********/
 
 h1 {
   padding: 2rem;
@@ -56,6 +119,10 @@ h1 {
   font-size: 1.2rem;
   color: #d0d0d0;
 }
+
+/************/
+/* Epreuves */
+/************/
 
 .epreuves {
   padding: 10px;
@@ -117,6 +184,10 @@ h2 {
   margin-bottom: 10px;
 }
 
+/**********/
+/* Button */
+/**********/
+
 button {
   background-color: #3b006e;
   color: white;
@@ -130,35 +201,6 @@ button {
 
 button:hover {
   background-color: #29004a;
-}
-
-.burger-menu {
-  display: none;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 30px;
-  height: 25px;
-}
-
-.burger-menu div {
-  width: 100%;
-  height: 3px;
-  background-color: white;
-  margin: 3px 0;
-}
-
-.mobile-nav {
-  display: none;
-  background-color: #3b006e;
-  padding: 1rem;
-}
-
-.mobile-nav a {
-  color: white;
-  display: block;
-  padding: 1rem 0;
-  text-align: center;
 }
 
 .view-all {
@@ -180,6 +222,10 @@ button:hover {
   background-color: #a6082a;
 }
 
+/**********/
+/* footer */
+/**********/
+
 .footer {
   background-color: #3b006e;
   color: white;
@@ -191,23 +237,34 @@ button:hover {
   margin-top: 30px;
 }
 
+/**********/
+/* tablet */
+/**********/
+
 @media (min-width: 320px) and (max-width: 768px) {
   .epreuves {
     display: flex;
     flex-direction: column;
-  }
-  .burger-menu {
-    display: flex;
-  }
-  .mobile-nav {
-    display: block;
   }
   .footer {
     margin-top: 60px;
   }
 }
 
+/********************/
+/* Desktop specific */
+/*******************/
+
 @media (min-width: 769px) {
+  .nav-links {
+    display: flex;
+  }
+  .burger-menu {
+    display: none;
+  }
+  .mobile-nav {
+    display: none !important;
+  }
   .epreuve {
     display: flex;
     flex-direction: row;
