@@ -1,0 +1,53 @@
+services:
+  django:
+    build:
+      context: .
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
+        USERNAME: ${USERNAME}
+        USER_UID: ${USER_UID}
+        USER_GID: ${USER_GID}
+    volumes:
+      - .:/backend
+      - ../frontend/build:/backend/frontend/build
+      - ./secrets/django_secret_key.txt:/run/secrets/django_secret_key
+      - ./secrets/postgres_user.txt:/run/secrets/postgres_user
+      - ./secrets/postgres_password.txt:/run/secrets/postgres_password
+      - ./secrets/postgres_db.txt:/run/secrets/postgres_db
+      - ../frontend/build/static:/backend/frontend/build/static # for static files
+      - ./staticfiles:/backend/staticfiles
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - backend_network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    volumes:
+      - ./entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+      - postgres_data:/var/lib/postgresql/data
+    secrets:
+      - postgres_user
+      - postgres_password
+      - postgres_db
+    entrypoint: ["/docker-entrypoint-initdb.d/entrypoint.sh"]
+    networks:
+      - backend_network
+
+volumes:
+  postgres_data:
+
+secrets:
+  postgres_user:
+    file: ./secrets/postgres_user.txt
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  postgres_db:
+    file: ./secrets/postgres_db.txt
+
+networks:
+  backend_network:

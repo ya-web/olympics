@@ -31,15 +31,13 @@ ARG ALLOWED_HOSTS=localhost
 ENV ALLOWED_HOSTS=${ALLOWED_HOSTS}
 
 # Install minimal system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /backend
-# Ensure the non-root user owns the /backend directory
-RUN chown -R ${USERNAME}:${USERNAME} /backend
 
 # Install dependencies
 COPY requirements.txt .
@@ -47,10 +45,22 @@ RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# Ensure the non-root user owns the /backend directory
+RUN chown -R ${USERNAME}:${USERNAME} /backend
+
+# Create the directory for staticfiles and give proper permissions
+RUN mkdir -p /backend/staticfiles && \
+    chown -R ${USERNAME}:${USERNAME} /backend/staticfiles && \
+    chmod -R 755 /backend/staticfiles
+
 # Switch to the non-root user
 USER ${USERNAME}
 
+# Run the Django development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# production-specific settings
 # Run Gunicorn to serve the Django app
-CMD ["gunicorn", "django_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--reload"]
+# CMD ["gunicorn", "django_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--reload"]
 
 EXPOSE 8000
